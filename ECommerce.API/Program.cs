@@ -1,4 +1,5 @@
 
+using ECommerce.API.Extensions;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ namespace ECommerce.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         { 
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ namespace ECommerce.API
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
-
+            await app.MigrateAndSeedAsync();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -29,7 +30,6 @@ namespace ECommerce.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

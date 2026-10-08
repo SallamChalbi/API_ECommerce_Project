@@ -21,8 +21,6 @@ namespace ECommerce.Infrastructure.Seeding
                 await SeedIfEmptyAsync<ProductsBrand>(SeedPath, "brands.json", ct);
                 await SeedIfEmptyAsync<ProductsType>(SeedPath, "types.json", ct);
                 await SeedIfEmptyAsync<Product>(SeedPath, "products.json", ct);
-
-                await dbContext.SaveChangesAsync(ct);
             }
             catch (Exception ex)
             {
@@ -47,6 +45,7 @@ namespace ECommerce.Infrastructure.Seeding
 
             if(items?.Count > 0)
                 await dbContext.Set<T>().AddRangeAsync(items, ct);
+            await dbContext.SaveChangesAsync(ct);
         }
     }
 }
