@@ -1,5 +1,6 @@
 
 using ECommerce.API.Extensions;
+using ECommerce.Application;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace ECommerce.API
             
             builder.Services.AddControllers();
             builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
