@@ -22,6 +22,8 @@ namespace ECommerce.Application.Common
     public class Result<T> : Result
     {
         public T Value { get; }
+        public T Data => IsSuccess ? Value : default!;
+
         private Result(T value)
             : base(true, Array.Empty<Error>())
         {
@@ -41,5 +43,8 @@ namespace ECommerce.Application.Common
         public static Result<T> Ok(T value) => new Result<T>(value);
         public static new Result<T> Fail(Error error) => new Result<T>(error);
         public static new Result<T> Fail(IReadOnlyList<Error> errors) => new Result<T>(errors);
+
+        public static implicit operator Result<T>(T value) => Ok(value);
+        public static implicit operator Result<T>(Error error) => Fail(error);
     }
 }
