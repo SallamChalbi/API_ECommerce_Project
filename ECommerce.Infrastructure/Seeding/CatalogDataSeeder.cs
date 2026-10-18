@@ -16,6 +16,14 @@ namespace ECommerce.Infrastructure.Seeding
         {
             try
             {
+                //This code will not working cause it needs first to create the database and then apply the migrations 
+                //var pending = await dbContext.Database.GetAppliedMigrationsAsync();
+                //if (pending.Count() > 0)
+                //    await dbContext.Database.MigrateAsync();
+
+                // So we can use MigrateAsync() method to apply any pending migrations and create the database if it does not exist.
+                await dbContext.Database.MigrateAsync();
+
                 var SeedPath = Path.Combine(AppContext.BaseDirectory, "DataSeed");
 
                 await SeedIfEmptyAsync<ProductsBrand>(SeedPath, "brands.json", ct);
