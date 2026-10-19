@@ -42,5 +42,12 @@ namespace ECommerce.Infrastructure.Repositories
         {
             return await dbContext.Set<TEntity>().FindAsync(id, ct);
         }
+
+        public async Task<IReadOnlyList<TEntity>> GetAllWithSpecificationsAsync(ISpecifications<TEntity, TKey> specifications, 
+            CancellationToken ct = default)
+        {
+            var result = SpecificationEvaluator.CreateQuery<TEntity, TKey>(dbContext.Set<TEntity>(), specifications);
+            return await result.ToListAsync(ct);
+        }
     }
 }
