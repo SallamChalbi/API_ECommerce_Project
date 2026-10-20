@@ -2,6 +2,8 @@
 using ECommerce.Application.Common;
 using ECommerce.Application.Contracts;
 using ECommerce.Application.DTOs.Products;
+using ECommerce.Application.Params;
+using ECommerce.Application.Specifications;
 using ECommerce.Domain.Contracts;
 using ECommerce.Domain.Entities.Products;
 using System;
@@ -28,9 +30,13 @@ namespace ECommerce.Application.Services
             return Result<IReadOnlyList<BrandDTO>>.Ok(mappedBrands);
         }
 
-        public async Task<Result<IReadOnlyList<ProductDTO>>> GetAllProductsAsync(CancellationToken ct = default)
+        public async Task<Result<IReadOnlyList<ProductDTO>>> GetAllProductsAsync(ProductQueryParams queryParams, CancellationToken ct = default)
         {
-            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(ct);
+            // static
+            //var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(ct);
+            // with specification pattern
+            var spec = new ProductSpecifications(queryParams);
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecificationsAsync(spec, ct);
             var mappedProducts = mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products);
             return Result<IReadOnlyList<ProductDTO>>.Ok(mappedProducts);
         }
@@ -44,7 +50,12 @@ namespace ECommerce.Application.Services
 
         public async Task<Result<ProductDTO>> GetProductByIdAsync(int id, CancellationToken ct = default)
         {
-            var product = await unitOfWork.GetRepository<Product, int>().GetByIdAsync(id, ct);
+            // static
+            //var product = await unitOfWork.GetRepository<Product, int>().GetByIdAsync(id, ct);
+            // with specification pattern
+            var spec = new ProductSpecifications(id);
+            var product = await unitOfWork.GetRepository<Product, int>().GetByIdWithSpecificationsAsync(spec, ct);
+            
             if(product is null)
                 return Result<ProductDTO>.Fail(Error.NotFound("Product.NotFound", $"Product with id {id} not found."));
                 
