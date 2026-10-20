@@ -17,6 +17,9 @@ namespace ECommerce.Infrastructure.Repositories
             if (specifications.IncludeExpressions.Count > 0)
                 query = specifications.IncludeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
 
+            if(specifications.Criteria is not null)
+                query = query.Where(specifications.Criteria);
+
             return query;
         }
     }
