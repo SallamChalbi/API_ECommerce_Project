@@ -9,9 +9,9 @@ namespace ECommerce.API.Controllers
     public class ProductController(IProductServices productServices) : ApiBaseController
     {
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetAllProducts(CancellationToken ct)
+        public async Task<ActionResult<IReadOnlyList<ProductDTO>>> GetAllProducts(int? brandId, int? typeId, CancellationToken ct)
         {
-            var products = await productServices.GetAllProductsAsync();
+            var products = await productServices.GetAllProductsAsync(brandId, typeId);
             return ToActionResult(products); 
         }
         [HttpGet("Brands")]

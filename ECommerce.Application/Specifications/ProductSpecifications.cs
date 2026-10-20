@@ -7,7 +7,8 @@ namespace ECommerce.Application.Specifications
 {
     public class ProductSpecifications : BaseSpecifications<Product, int>
     {
-        public ProductSpecifications(): base(null!)
+        public ProductSpecifications(int? brandId, int? typeId): 
+            base(P => (!brandId.HasValue || P.BrandId == brandId) && (!typeId.HasValue || P.TypeId == typeId))
         {
             AddInclude(p => p.Brand);
             AddInclude(p => p.Type);
