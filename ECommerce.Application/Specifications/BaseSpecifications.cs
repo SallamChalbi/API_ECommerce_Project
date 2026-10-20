@@ -21,5 +21,13 @@ namespace ECommerce.Application.Specifications
         {
             IncludeExpressions.Add(expression);
         }
+
+        public Expression<Func<TEntity, object>>? OrderBy { get; private set; }
+        public void AddOrderBy(Expression<Func<TEntity, object>>? expression)
+             => OrderBy = expression;
+
+        public Expression<Func<TEntity, object>>? OrderByDesc { get; private set; }
+        public void AddOrderByDesc(Expression<Func<TEntity, object>>? expression)
+             => OrderByDesc = expression;
     }
 }

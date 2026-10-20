@@ -17,8 +17,13 @@ namespace ECommerce.Infrastructure.Repositories
             if (specifications.IncludeExpressions.Count > 0)
                 query = specifications.IncludeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
 
-            if(specifications.Criteria is not null)
+            if (specifications.Criteria is not null)
                 query = query.Where(specifications.Criteria);
+
+            if (specifications.OrderBy is not null)
+                query = query.OrderBy(specifications.OrderBy);
+            if (specifications.OrderByDesc is not null)
+                query = query.OrderByDescending(specifications.OrderByDesc);
 
             return query;
         }

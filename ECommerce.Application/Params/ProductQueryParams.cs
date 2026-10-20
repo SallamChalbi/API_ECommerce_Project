@@ -9,5 +9,7 @@ namespace ECommerce.Application.Params
         public int? BrandId { get; set; }
         public int? TypeId { get; set; }
         public string? searchValue { get; set; }
+
+        public ProductSortingOptions sort { get; set; } = ProductSortingOptions.None;
     }
 }
